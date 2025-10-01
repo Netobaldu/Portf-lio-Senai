@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio de Cursos de Pós-Graduação - Caderno Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glassmorphism {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .page-content {
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+        .page-content.loading {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        /* Custom scrollbar for content section */
+        .content-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .content-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        .content-scrollbar::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 3px;
+        }
+        .content-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9;
+        }
+        .watermark-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 8s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        /* Custom range slider styles */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #374151; /* bg-gray-700 */
+            border-radius: 9999px; /* rounded-lg */
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type=range]:hover {
+            opacity: 1;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #38bdf8; /* sky-500 */
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #f9fafb; /* gray-50 */
+        }
+        input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #38bdf8;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #f9fafb;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col h-screen">
+
+    <!-- Header -->
+    <header class="w-full z-50 glassmorphism flex-shrink-0">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider gradient-text">
+                Unisenai
+            </div>
+            <img src="https://i.postimg.cc/DzYV2gbD/marca-SENAI-2024-completa-negativada.png" alt="Logo SENAI" class="w-32 md:w-40">
+        </div>
+    </header>
+
+    <!-- Main Content - Notebook -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8 overflow-hidden">
+        <div class="w-full max-w-6xl h-full flex flex-col md:flex-row glassmorphism rounded-2xl shadow-2xl overflow-hidden">
+            
+            <!-- Image Section -->
+            <div class="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden">
+                <img id="course-image" src="" alt="Imagem do curso" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
+            </div>
+
+            <!-- Content Section -->
+            <div id="content-panel" class="w-full md:w-1/2 flex flex-col p-6 md:p-10 overflow-hidden">
+                <div id="page-content" class="page-content flex-grow overflow-y-auto content-scrollbar pr-2">
+                    
+                    <!-- Cover Content -->
+                    <div id="cover-content" class="hidden h-full flex-col items-center justify-center text-center relative">
+                         <!-- Watermark Icons -->
+                        <svg class="watermark-icon" style="top: 10%; left: 15%; width: 80px; height: 80px; animation-delay: -2s;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V8.25a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 8.25v10.5A2.25 2.25 0 006.75 21z" /></svg>
+                        <svg class="watermark-icon" style="top: 20%; right: 10%; width: 100px; height: 100px; animation-delay: -4s;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.82m5.84-2.56a12.022 12.022 0 01-.88-6.63A11.96 11.96 0 004.5 5.13a12.024 12.024 0 0111.09 9.24z" /></svg>
+                        <svg class="watermark-icon" style="bottom: 15%; left: 20%; width: 90px; height: 90px; animation-delay: 0s;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0-2.25l2.25 1.313M12 12.75l-2.25 1.313M12 12.75V15m0-2.25l2.25-1.313M9 15l2.25-1.313M9 15l2.25 1.313M9 15v2.25m6-4.5l-2.25-1.313m-3 0l-2.25-1.313m4.5 0l2.25 1.313m-4.5 0l-2.25 1.313M12 9l2.25-1.313M12 9l-2.25-1.313M12 9V6.75m0 2.25l2.25 1.313M12 9l-2.25 1.313m0 0l-2.25-1.313m2.25 1.313l-2.25 1.313" /></svg>
+                        <svg class="watermark-icon" style="bottom: 25%; right: 15%; width: 70px; height: 70px; animation-delay: -6s;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311l-3.75 0m3.75-2.311a12.061 12.061 0 00-4.5 0m6.75-4.5a3.75 3.75 0 00-7.5 0m7.5 0a3.75 3.75 0 01-7.5 0m6.375 9.065a9 9 0 01-12.75 0" /></svg>
+                        
+                        <div class="z-10">
+                            <h1 class="text-5xl md:text-6xl font-bold gradient-text">Portfólio Unisenai</h1>
+                            <img src="https://i.postimg.cc/DzYV2gbD/marca-SENAI-2024-completa-negativada.png" alt="Logo SENAI" class="w-48 md:w-64 mt-10 mx-auto">
+                        </div>
+                    </div>
+
+                    <!-- Course Content -->
+                    <div id="course-content-wrapper" class="hidden">
+                        <h1 id="course-title" class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight"></h1>
+                        <p id="course-description" class="text-gray-300 mb-8"></p>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-2 gap-6 mb-8 text-sm">
+                            <div id="course-profile" class="flex items-start gap-3"></div>
+                            <div id="course-workload" class="flex items-start gap-3"></div>
+                            <div id="course-format" class="flex items-start gap-3"></div>
+                            <div id="course-investment" class="flex items-start gap-3 col-span-2"></div>
+                        </div>
+
+                        <div id="course-career" class="mb-8 p-4 rounded-lg bg-gray-800/50 flex items-start gap-4"></div>
+                        
+                        <div class="mb-8">
+                            <h4 class="text-base font-semibold text-sky-400 mb-3">Conceitos-Chave</h4>
+                            <div id="course-tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-base font-semibold text-sky-400 mb-4">Principais Habilidades Desenvolvidas</h4>
+                            <div class="relative h-64 md:h-80 w-full">
+                                <canvas id="skills-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="mt-8 pt-6 border-t border-gray-700 flex justify-between items-center flex-shrink-0">
+                    <button id="prev-btn" class="nav-button bg-gray-700 hover:bg-sky-500 transition-colors p-3 rounded-full disabled:opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <div id="page-counter" class="text-sm text-gray-400 font-medium"></div>
+                    <button id="next-btn" class="nav-button bg-gray-700 hover:bg-sky-500 transition-colors p-3 rounded-full disabled:opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const courses = [
+            {
+                type: 'cover',
+                image: 'https://i.postimg.cc/V6Xcbs4c/assets-task-01k5yd9w8tf4rttbqqjjt9zn5t-1758736241-img-2.webp',
+            },
+            {
+                type: 'course',
+                title: 'MBA EM GESTÃO DA LOGÍSTICA',
+                description: 'Planejar, desenvolver, gerenciar, e controlar os processos logísticos internos e externos à organização, de forma integrada, a fim de otimizar os recursos e reduzir custos satisfazendo seus clientes.',
+                image: 'https://i.postimg.cc/c1TwSkJm/role-of-technology-in-logistics-industry-1.webp',
+                tags: ['Supply Chain', 'Logística 4.0', 'Otimização', 'Custos'],
+                profile: 'Gestores, analistas e profissionais de operações que buscam otimizar a cadeia de suprimentos e processos logísticos.',
+                workload: '380 horas',
+                format: 'EaD',
+                investment: 7187.75,
+                maxInstallments: 14,
+                career: 'Lidere operações de supply chain, gerencie centros de distribuição ou atue como consultor em logística 4.0, otimizando rotas e estoques.',
+                skills: [ { name: 'Gestão de Supply Chain', level: 95 }, { name: 'Otimização de Processos', level: 90 }, { name: 'Controle de Custos', level: 88 }, { name: 'Estratégia Logística', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MIT EM FLUÊNCIA TECNOLÓGICA DIGITAL',
+                description: 'Atuar com um conhecimento profundo das particularidades do processo de ensino-aprendizagem do uso das tecnologias digitais. Utilizar os recursos tecnológicos digitais no processo didático-metodológico compreendendo a habilidade autodidata necessária. Promover a interação entre os conhecimentos trabalhados em sala e as outras formas de conhecimentos que podem ser estendidas, além do espaço de sala de aula por meio das tecnologias educacionais.',
+                image: 'https://i.postimg.cc/mrHMQbBZ/unnamed.png',
+                tags: ['Inovação', 'Tecnologia Educacional', 'IA', 'Transformação Digital'],
+                profile: 'Educadores, gestores e profissionais de todas as áreas que necessitam compreender e aplicar tecnologias digitais em seus contextos de trabalho.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 10598.4,
+                maxInstallments: 14,
+                career: 'Torne-se um líder em transformação digital, consultor de inovação ou especialista em metodologias de ensino com tecnologias digitais e IA.',
+                skills: [ { name: 'Transformação Digital', level: 95 }, { name: 'Tecnologias Educacionais', level: 90 }, { name: 'Inovação', level: 88 }, { name: 'Liderança Digital', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MPENG PROJETO DE ESTRUTURAS DE AÇO PARA EDIFICAÇÕES',
+                description: 'Emprega meios e métodos para firmar conceitos sobre estruturação de galpões e prédios com estruturas de aço e sobre dimensionamento de perfis de aço sob ação de temperatura elevada. Elabora projetos utilizando técnicas de dimensionamento para suporte a vibrações, trabalhando o cálculo de estruturas sujeitas a sismos e utilizando ferramentas computacionais para automatização do cálculo e detalhamento de estruturas metálicas, considerando normas técnicas, de qualidade, segurança, meio ambiente, legislação e viabilidade técnica e econômica. Dimensiona estruturas e compreender abordagem de Estabilidade Estrutural e Estruturas Mistas, buscando firmar o conceito sobre modos de flambagem e instabilidades locais, utilizando métodos para considerar instabilidades locais.',
+                image: 'https://i.postimg.cc/J47pjd0D/EML-vs-MBA-Blog.jpg',
+                tags: ['Engenharia Estrutural', 'Estruturas Metálicas', 'BIM', 'Cálculo'],
+                profile: 'Engenheiros civis e arquitetos que desejam se especializar no projeto e cálculo de estruturas metálicas.',
+                workload: '490 horas',
+                format: 'EaD',
+                investment: 20160.00,
+                maxInstallments: 27,
+                career: 'Atue como projetista estrutural especialista em aço, consultor em engenharia de estruturas ou gerencie projetos de construção com estruturas metálicas.',
+                skills: [ { name: 'Cálculo Estrutural', level: 95 }, { name: 'Dimensionamento de Aço', level: 92 }, { name: 'Normas Técnicas', level: 88 }, { name: 'Software BIM', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM E-COMMERCE COM INTELIGÊNCIA ARTIFICIAL',
+                description: 'Desenvolver as habilidades do profissional para reconhecer abordagens estratégicas e inovadoras no contexto do comércio eletrônico, por meio da aplicação da inteligência artificial em conjunto com as tecnologias digitais. Essa integração visa impulsionar o avanço das operações comerciais no e-commerce e assegurar a conformidade com os requisitos legais e éticos.',
+                image: 'https://i.postimg.cc/d33TVdQ1/Fluencia-digital-nova-habilidade-essencial-para-liderancas-IMG-I.png',
+                tags: ['E-commerce', 'Inteligência Artificial', 'Marketing Digital', 'Vendas Online'],
+                profile: 'Gestores de e-commerce, profissionais de marketing e empreendedores que buscam inovar no varejo digital com IA.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como especialista em e-commerce com IA, gerente de marketing digital ou consultor de inovação para varejo online, otimizando vendas e experiência do cliente.',
+                skills: [ { name: 'Estratégia de E-commerce', level: 95 }, { name: 'IA para Vendas', level: 90 }, { name: 'Análise de Dados', level: 88 }, { name: 'Marketing Digital', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM BIG DATA E MACHINE LEARNING',
+                description: 'Empregar métodos e técnicas de gerenciamento para especificar, analisar, projetar, construir e integrar os sistemas embarcados utilizando protocolos de comunicação e Cloud Computing, bem como gerir e produzir informações úteis, utilizando técnicas de Machine. Learning e Data Science.',
+                image: 'https://i.postimg.cc/pL5MV6tj/As-profissoes-que-vao-mudar-a-industria-Engenharia-Mecanica-e-Engenharia-de-Controle-e-Automacao-sca.jpg',
+                tags: ['Big Data', 'Machine Learning', 'Cloud', 'Data Science'],
+                profile: 'Profissionais de TI, engenheiros e analistas que buscam liderar projetos de dados, aplicando técnicas de machine learning e big data.',
+                workload: '386 horas',
+                format: 'EaD',
+                investment: 7184.73,
+                maxInstallments: 14,
+                career: 'Atue como Cientista de Dados, Engenheiro de Machine Learning ou Arquiteto de Big Data, desenvolvendo modelos preditivos e soluções de dados em larga escala.',
+                skills: [ { name: 'Machine Learning', level: 95 }, { name: 'Big Data', level: 92 }, { name: 'Cloud Computing', level: 88 }, { name: 'Data Science', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM DATA PROTECTION OFFICER',
+                description: 'Apontar, elaborar e aplicar medidas de privacidade e proteção de dados pessoais, considerando legislação nacional e internacional, para gerenciar projetos que evitem prejuízos, busquem a adequação à LGPD, garantam a conformidade interna, e identifiquem soluções para problemas reais, dentro da legislação vigente.',
+                image: 'https://i.postimg.cc/m2Q8ffn5/premium-photo-1733317239304-a6bf462a2596.avif',
+                tags: ['LGPD', 'Privacidade', 'Segurança', 'Compliance'],
+                profile: 'Profissionais de direito, TI e gestão que buscam se especializar em privacidade e proteção de dados, atuando em conformidade com a LGPD.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Data Protection Officer (DPO), consultor em privacidade de dados ou especialista em conformidade com a LGPD, liderando projetos de adequação em empresas.',
+                skills: [ { name: 'Legislação (LGPD)', level: 95 }, { name: 'Gestão de Riscos', level: 90 }, { name: 'Segurança da Informação', level: 88 }, { name: 'Governança de Dados', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM GESTÃO DE AGRONEGÓCIO',
+                description: 'Analisar, elaborar e aprofundar no setor do agronegócio visando soluções inovadoras e sustentáveis, além de gerar lucros, obtendo financiamentos, avaliando custos de produção e garantindo conformidade com a legislação vigente.',
+                image: 'https://i.postimg.cc/wMxJSZRS/0255-Agrotech-ideas-para-emprender-en-este-sector.jpg',
+                tags: ['Agronegócio', 'Sustentabilidade', 'Gestão Rural', 'Inovação'],
+                profile: 'Gestores, produtores rurais e profissionais que buscam liderar no setor do agronegócio com foco em inovação, sustentabilidade e gestão financeira.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Torne-se um gestor de agronegócio, consultor para o setor rural ou empreendedor, liderando projetos de inovação e sustentabilidade no campo.',
+                skills: [ { name: 'Gestão de Agronegócio', level: 95 }, { name: 'Sustentabilidade', level: 90 }, { name: 'Análise de Custos', level: 88 }, { name: 'Inovação no Campo', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM GESTÃO EMPRESARIAL E LIDERANÇA',
+                description: 'Analisar a gestão, elaborar projetos e aprofundar no conhecimento de governança visando soluções inteligentes e sustentáveis para evitar prejuízos, reduzir riscos, e garantir a qualidade dos resultados, dentro da legislação vigente.',
+                image: 'https://i.postimg.cc/J4kJSNs7/1650204182804.jpg',
+                tags: ['Liderança', 'Gestão de Pessoas', 'Estratégia', 'Governança'],
+                profile: 'Líderes, gestores e profissionais que desejam desenvolver competências em gestão empresarial, liderança de equipes e governança corporativa.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Assuma cargos de liderança, gerencie equipes de alta performance ou atue como consultor em gestão estratégica e governança corporativa.',
+                skills: [ { name: 'Liderança Estratégica', level: 95 }, { name: 'Gestão de Equipes', level: 92 }, { name: 'Planejamento', level: 88 }, { name: 'Governança', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM GOVERNANÇA E GESTÃO NAS TECNOLOGIAS DA INFORMAÇÃO',
+                description: 'Explorar, elaborar e implementar meios e métodos de governança para a utilização de normas técnicas, qualidade, segurança, meio ambiente, legislação e viabilidade técnica e econômica em projetos e ações de gestão.',
+                image: 'https://i.postimg.cc/YCx4wbM7/unnamed-4.png',
+                tags: ['Governança de TI', 'Gestão de TI', 'Segurança', 'Compliance'],
+                profile: 'Gestores de TI, analistas de segurança e profissionais que buscam implementar as melhores práticas de governança e gestão em tecnologia.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Gerente de Governança de TI, Consultor de Segurança da Informação ou Especialista em Compliance, garantindo que a tecnologia da empresa siga as melhores práticas e regulamentações.',
+                skills: [ { name: 'Governança de TI', level: 95 }, { name: 'Gestão de Riscos', level: 90 }, { name: 'Segurança da Informação', level: 88 }, { name: 'Compliance', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM INTELIGÊNCIA ARTIFICIAL E GESTÃO DA QUALIDADE',
+                description: 'Aplicar e gerenciar as ferramentas e técnicas relacionadas à inteligência artificial no contexto da gestão da qualidade. Adquirir habilidades para utilizar tecnologias avançadas de IA para otimizar processos, melhorar a eficiência operacional e aprimorar a qualidade dos produtos e serviços oferecidos por uma organização. Desenvolver a capacidade dos alunos para liderar equipes multidisciplinares, implementar estratégias de qualidade baseadas em dados e tomar decisões informadas com base em análises preditivas e prescritivas geradas por sistemas de IA. Capacitar os profissionais para integrar efetivamente a IA na gestão da qualidade, impulsionando a excelência operacional e o sucesso organizacional.',
+                image: 'https://i.postimg.cc/g24vKYw3/unnamed-3.png',
+                tags: ['IA na Qualidade', 'Otimização de Processos', 'Análise Preditiva', 'Excelência Operacional'],
+                profile: 'Gestores da qualidade, engenheiros de produção e profissionais que desejam aplicar IA para otimizar processos e garantir a excelência operacional.',
+                workload: '370 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Seja um Especialista em Qualidade 4.0, Gerente de Inovação em Processos ou Consultor de IA para Indústria, liderando a implementação de sistemas inteligentes para garantir a excelência e a eficiência.',
+                skills: [ { name: 'IA para Qualidade', level: 95 }, { name: 'Otimização de Processos', level: 90 }, { name: 'Análise Preditiva', level: 88 }, { name: 'Gestão de Dados', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM INTELIGÊNCIA ARTIFICIAL E TECNOLOGIAS PARA EMPRESAS',
+                description: 'Compreender, aplicar e liderar iniciativas de inteligência artificial (IA) que impulsionem a inovação e melhorem os processos empresariais. Entender os fundamentos da IA, identificar oportunidades de aplicação em diferentes setores, desenvolver e implementar soluções, avaliar impactos e lidar com questões éticas. Usar ferramentas como E-contracts e Smart Contracts para otimizar processos contratuais, enquanto compreendem o Direito do Consumidor e a regulação no comércio eletrônico na indústria tecnológica. Adquirir habilidades em ferramentas de Business Intelligence para análise de dados e tomada de decisões estratégicas.',
+                image: 'https://i.postimg.cc/ZRNBXZq7/Any-Conv-com-pos-engenharia-e-gestao-da-qualidade-e-de-projetos-1024x622.webp',
+                tags: ['IA para Negócios', 'Inovação Empresarial', 'Smart Contracts', 'Business Intelligence'],
+                profile: 'Gestores, empreendedores e profissionais que buscam aplicar IA e tecnologias emergentes para inovar e otimizar processos de negócio.',
+                workload: '368 horas',
+                format: 'EaD',
+                investment: 6960.77,
+                maxInstallments: 14,
+                career: 'Torne-se um líder de inovação, consultor de IA para negócios ou especialista em transformação digital, aplicando inteligência artificial e análise de dados para impulsionar a estratégia empresarial.',
+                skills: [ { name: 'Inteligência Artificial Aplicada', level: 95 }, { name: 'Business Intelligence', level: 92 }, { name: 'Gestão da Inovação', level: 88 }, { name: 'Direito Digital', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM INTELIGÊNCIA ARTIFICIAL PARA GESTORES',
+                description: 'Compreender, aplicar e liderar estrategicamente iniciativas de inteligência artificial no contexto empresarial. Entendendo tanto os fundamentos teóricos quanto práticos da IA e ser capaz de avaliar e implementar soluções baseadas nessa tecnologia para melhorar eficiência, produtividade e inovação nas organizações. Adquirir habilidades para analisar criticamente questões éticas, legais e sociais relacionadas ao uso da IA. Liderando equipes multidisciplinares, identificando oportunidades de negócios e tomando decisões estratégicas informadas sobre investimentos em tecnologias de IA.',
+                image: 'https://i.postimg.cc/0jbwZmwS/1442302025021067aa3a869a97e.jpg',
+                tags: ['IA para Gestão', 'Liderança Tecnológica', 'Estratégia com IA', 'Ética em IA'],
+                profile: 'Gestores, líderes e executivos que buscam compreender o potencial da IA para tomar decisões estratégicas e liderar a transformação digital em suas empresas.',
+                workload: '368 horas',
+                format: 'EaD',
+                investment: 7154.12,
+                maxInstallments: 14,
+                career: 'Lidere projetos de implementação de IA, atue como Chief AI Officer (CAIO) ou consultor estratégico, definindo como a inteligência artificial pode gerar valor e vantagem competitiva para o negócio.',
+                skills: [ { name: 'Liderança em IA', level: 95 }, { name: 'Estratégia de Negócios', level: 92 }, { name: 'Gestão de Projetos de IA', level: 88 }, { name: 'Ética e Governança de IA', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA GOVERNANÇA JURÍDICA E INTELIGÊNCIA ARTIFICIAL',
+                description: 'Explorar métodos e práticas avançadas no campo da Governança Jurídica e Inteligência Artificial com o intuito de desenvolver habilidades técnicas, visão estratégica e competências comportamentais essenciais. O curso capacitará os profissionais para analisar, interpretar e aplicar princípios jurídicos em contextos influenciados pela inteligência artificial, governança de dados, e tecnologias emergentes. Os participantes serão habilitados a liderar a integração de soluções tecnológicas com estratégias jurídicas, assegurando conformidade regulatória e promovendo a inovação responsável. Este programa visa formar líderes capacitados para navegar e moldar o futuro da prática jurídica em ambientes digitais, enfatizando a importância da adaptação e aprendizado contínuos diante dos desafios da era digital.',
+                image: 'https://i.postimg.cc/ZRwFKJmT/unnamed-1.png',
+                tags: ['Governança Jurídica', 'IA no Direito', 'Legal Tech', 'Compliance Digital'],
+                profile: 'Advogados, gestores jurídicos e profissionais de compliance que desejam liderar a transformação digital no setor jurídico, aplicando IA e governança de dados.',
+                workload: '370 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como um líder em Legal Tech, consultor de governança de dados para o setor jurídico ou especialista em compliance digital, moldando o futuro da advocacia com tecnologia.',
+                skills: [ { name: 'Governança Jurídica', level: 95 }, { name: 'IA Aplicada ao Direito', level: 92 }, { name: 'Compliance Digital', level: 88 }, { name: 'Legal Tech', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MIT EM CYBER SECURITY',
+                description: 'Especificar, projetar, construir e manter sistemas de redes de computadores utilizando boas práticas de Segurança da Informação., bem como integrar e manter estes sistemas a plataformas cloud utilizando protocolos comunicação. Tratar, analisar e produzir informações relevantes ao negócio utilizando infraestrutura ágil. Especificar, projetar e construir sistemas de redes de computadores utilizando técnicas de configuração e implantação de redes de computadores, bem como criar soluções inteligentes para problemas reais. Planejar, executar, controlar e monitorar projetos de Segurança da Informação., assim como garantir a viabilidade de custos e retorno financeiro ao negócio.',
+                image: 'https://i.postimg.cc/2ykYnRV9/Ciberseguranca.png',
+                tags: ['Cyber Security', 'Redes', 'Cloud Security', 'Segurança da Informação'],
+                profile: 'Profissionais de TI e redes que buscam especialização em segurança cibernética para proteger infraestruturas digitais contra ameaças.',
+                workload: '372 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Analista de Segurança, Especialista em Redes Seguras ou Consultor de Cibersegurança, defendendo empresas contra ataques cibernéticos e garantindo a integridade dos dados.',
+                skills: [ { name: 'Segurança de Redes', level: 95 }, { name: 'Cloud Security', level: 90 }, { name: 'Gestão de Riscos', level: 88 }, { name: 'Análise de Ameaças', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MIT EM DEVOPS E CLOUD COMPUTING',
+                description: 'Empregar métodos e técnicas de gerenciamento para especificar, analisar, projetar, construir e manter integração de sistemas utilizando infraestrutura ágil, utilizando protocolos de comunicação e cloud computing, bem como gerir e analisar informações úteis ao negócio.',
+                image: 'https://i.postimg.cc/MTGtB9zb/1707153799836.jpg',
+                tags: ['DevOps', 'Cloud Computing', 'CI/CD', 'Infraestrutura Ágil'],
+                profile: 'Profissionais de desenvolvimento e infraestrutura que buscam automatizar a entrega de software e gerenciar ambientes em nuvem.',
+                workload: '384 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Engenheiro DevOps, Arquiteto de Cloud ou Especialista em Automação, otimizando o ciclo de vida de desenvolvimento e a infraestrutura de TI.',
+                skills: [ { name: 'Automação (CI/CD)', level: 95 }, { name: 'Cloud Computing', level: 92 }, { name: 'Infraestrutura como Código', level: 88 }, { name: 'Monitoramento', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MIT EM INTELIGÊNCIA ARTIFICIAL NA EDUCAÇÃO',
+                description: 'Atuar com profundo conhecimento das particularidades do processo de ensino-aprendizagem do uso das tecnologias digitais. Utilizar os recursos tecnológicos digitais no processo didático-metodológico compreendendo a habilidade autodidata necessária. Promover a interação entre os conhecimentos trabalhados em sala e as outras formas de conhecimentos que podem ser estendidas, além do espaço de sala de aula por meio das tecnologias educacionais e da Inteligência Artificial.',
+                image: 'https://i.postimg.cc/63QBHMdZ/Uni-Senai-PR-desconto-engenharias.jpg',
+                tags: ['IA na Educação', 'EdTech', 'Metodologias Ativas', 'Ferramentas Digitais'],
+                profile: 'Educadores, pedagogos e gestores que buscam revolucionar o ensino através da aplicação de inteligência artificial e tecnologias digitais.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Designer Instrucional, Especialista em EdTech ou Consultor de Inovação Educacional, integrando IA para criar experiências de aprendizagem personalizadas e eficazes.',
+                skills: [ { name: 'IA Educacional', level: 95 }, { name: 'Design Instrucional', level: 92 }, { name: 'Tecnologias Educacionais', level: 88 }, { name: 'Metodologias Ativas', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MIT EM MOBILE DEVTECHS',
+                description: 'Planejar, implantar e gerenciar o ciclo de desenvolvimento de aplicativos para dispositivos móveis e internet, incluindo sua distribuição em lojas oficiais de aplicativos.',
+                image: 'https://i.postimg.cc/NjM1p53B/aplicativos-desenvolvimento-mobile.png',
+                tags: ['Desenvolvimento Mobile', 'Apps', 'iOS', 'Android', 'UI/UX'],
+                profile: 'Desenvolvedores, engenheiros de software e profissionais de TI que desejam se especializar na criação e gestão de aplicativos para plataformas iOS e Android.',
+                workload: '360 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Desenvolvedor Mobile, Arquiteto de Soluções Móveis ou Gerente de Projetos de Apps, liderando a criação de aplicativos inovadores do conceito à publicação nas lojas.',
+                skills: [ { name: 'Desenvolvimento Nativo', level: 95 }, { name: 'UI/UX Mobile', level: 90 }, { name: 'Gestão de Projetos', level: 88 }, { name: 'Publicação de Apps', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'PÓS-GRADUAÇÃO LATO SENSU EM DESENVOLVIMENTO PARA DISPOSITIVOS MÓVEIS E INTERNET',
+                description: 'Planejar e desenvolver aplicativos para dispositivos móveis e internet. Implantar aplicações em lojas oficiais de aplicativos para dispositivos móveis. Gerenciar o ciclo de desenvolvimento de aplicações para dispositivos móveis.',
+                image: 'https://i.postimg.cc/Kvsd9g15/desenvolvedor-mobile-scaled.webp',
+                tags: ['Desenvolvimento Mobile', 'Desenvolvimento Web', 'Apps', 'Gerenciamento de Ciclo'],
+                profile: 'Profissionais e desenvolvedores que buscam dominar o ciclo completo de criação de aplicações para dispositivos móveis e internet, desde o planejamento até a publicação e gerenciamento.',
+                workload: '386 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Desenvolvedor Full-Stack Mobile e Web, Especialista em Implantação de Apps ou Gerente de Projetos de Desenvolvimento, liderando equipes na criação de soluções digitais completas.',
+                skills: [ { name: 'Desenvolvimento Mobile', level: 95 }, { name: 'Desenvolvimento Web', level: 90 }, { name: 'Gestão de Projetos', level: 88 }, { name: 'Publicação de Apps', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA EM BANCO DE DADOS E BIG DATA',
+                description: 'Empreender e inovar os negócios da empresa utilizando Banco de Dados, Big Data, Data Science e Business Intelligence. Gerenciar, planejar, analisar e controlar a execução de projetos em Banco de Dados e Big Data. Especificar, projetar, construir e administrar Banco de Dados e Banco de Dados distribuídos tanto em ambiente local como em ambiente de Cloud Computing. Faz a gestão e administração de dados bem como a produção de informações úteis e relevantes ao negócio mediante o tratamento e a análise dos dados obtidos de diversas fontes de dados, utilizando técnicas de Data Science e Business Intelligence.',
+                image: 'https://i.postimg.cc/pLwpzrx0/unnamed-2.png',
+                tags: ['Banco de Dados', 'Big Data', 'Data Science', 'Business Intelligence'],
+                profile: 'Profissionais de TI e gestores que buscam liderar projetos de inovação utilizando Big Data, Data Science e Business Intelligence para gerar insights de negócio.',
+                workload: '386 horas',
+                format: 'EaD',
+                investment: 6998.60,
+                maxInstallments: 14,
+                career: 'Atue como Arquiteto de Dados, Cientista de Dados ou Especialista em Business Intelligence, transformando grandes volumes de dados em insights estratégicos para o negócio.',
+                skills: [ { name: 'Big Data', level: 95 }, { name: 'Data Science', level: 92 }, { name: 'Business Intelligence', level: 88 }, { name: 'Cloud Computing', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBI EM ENGENHARIA: RESIDÊNCIA EM ENGENHARIA CIVIL',
+                description: 'Atuar com o conhecimento das particularidades do processo de execução de serviços de Engenharia Civil, com conhecimento de processos, novas tecnologias, utilização de softwares, Normas Técnicas de qualidade e desempenho, planejamento de prazos e equipe técnica.',
+                image: 'https://i.postimg.cc/tTBbtq8Z/Uni-Senai-PR-Engenharia-Civil-Capa.jpg',
+                tags: ['Engenharia Civil', 'Execução de Obras', 'Gestão de Projetos', 'Tecnologia Construtiva'],
+                profile: 'Engenheiros civis recém-formados ou profissionais que buscam experiência prática e aprofundada na execução e gestão de obras civis.',
+                workload: '1.100 horas',
+                format: 'Presencial',
+                investment: 34021.93,
+                maxInstallments: 24,
+                career: 'Torne-se um Engenheiro Residente, Gerente de Obras ou Especialista em Execução, liderando projetos complexos de construção civil com domínio de novas tecnologias, planejamento e normas técnicas.',
+                skills: [ { name: 'Gestão de Obras', level: 95 }, { name: 'Tecnologias Construtivas', level: 90 }, { name: 'Planejamento e Controle', level: 88 }, { name: 'Normas Técnicas', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'PÓS-GRADUAÇÃO LATO SENSU EM INSTRUMENTAÇÃO INDUSTRIAL E CONTROLE DE PROCESSOS',
+                description: 'Implementar e otimizar equipamentos e dispositivos em sistemas de controle e automação, seguindo rigorosamente os procedimentos e normas técnicas, bem como os padrões de qualidade, saúde, segurança e meio ambiente. Compreender a importância de garantir o funcionamento adequado dos equipamentos, tanto em termos de desempenho quanto de segurança, e está apto a realizar intervenções de manutenção preventiva e corretiva conforme necessário. Implementar novos equipamentos e dispositivos em sistemas de automação, assegurando a integração adequada e o pleno funcionamento dos mesmos. Otimizar sistemas de controle e automação, buscando constantemente melhorias e eficiência operacional, sempre alinhado com as normas e procedimentos estabelecidos, visando o bem-estar dos colaboradores e a preservação do meio.',
+                image: 'https://i.postimg.cc/vHtZXxn5/industria-3.jpg',
+                tags: ['Instrumentação', 'Controle de Processos', 'Automação Industrial', 'Normas Técnicas'],
+                profile: 'Profissionais da área industrial que buscam especialização na implementação, otimização e manutenção de sistemas de controle e automação, com foco em segurança e eficiência.',
+                workload: '360 horas',
+                format: 'Presencial',
+                investment: 14086.94,
+                maxInstallments: 24,
+                career: 'Atue como Especialista em Instrumentação e Controle, Gerente de Automação Industrial ou Consultor em Otimização de Processos, implementando e mantendo sistemas industriais de alta performance e segurança.',
+                skills: [ { name: 'Controle de Processos', level: 95 }, { name: 'Instrumentação Industrial', level: 92 }, { name: 'Automação', level: 88 }, { name: 'Normas de Segurança', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'PÓS-GRADUAÇÃO LATO SENSU – INTELIGÊNCIA ARTIFICIAL E TECNOLOGIAS DA INDÚSTRIA 4.0',
+                description: 'Compreender como as tecnologias habilitadoras da Indústria 4.0 podem contribuir com os processos produtivos industriais. Por meio de projetos, simulações e desenvolvimento práticos, propor soluções para atualização e modernização de processos produtivos e projetos tecnológicos visando a eficiência da indústria.',
+                image: 'https://i.postimg.cc/wBTR6v53/ia-capa-scaled.jpg',
+                tags: ['Indústria 4.0', 'IA Industrial', 'Automação', 'Processos Produtivos'],
+                profile: 'Engenheiros, gestores de produção e profissionais da indústria que buscam liderar a transformação digital e modernizar processos produtivos com tecnologias 4.0.',
+                workload: '360 horas',
+                format: 'Presencial',
+                investment: 20632.50,
+                maxInstallments: 24,
+                career: 'Atue como Especialista em Indústria 4.0, Gerente de Inovação Industrial ou Consultor de Transformação Digital, implementando soluções de IA e automação para otimizar a produção.',
+                skills: [ { name: 'Indústria 4.0', level: 95 }, { name: 'IA para Indústria', level: 92 }, { name: 'Automação de Processos', level: 88 }, { name: 'Gestão da Inovação', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'PÓS-GRADUAÇÃO LATO SENSU ENGENHARIA DE SISTEMAS ELÉTRICOS DE POTÊNCIA',
+                description: 'Planejar, projetar , manter e operar sistemas elétricos de potência nas etapas de geração, transmissão e distribuição da energia elétrica, visando garantir a estabilidade e a segurança do sistema elétrico e dos usuários.',
+                image: 'https://i.postimg.cc/85mYLZJZ/P-s-inova-o-industrial-com-IA.jpg',
+                tags: ['Sistemas Elétricos', 'Geração de Energia', 'Transmissão', 'Segurança Elétrica'],
+                profile: 'Engenheiros eletricistas e profissionais da área de energia que buscam se especializar em sistemas de potência, desde a geração até a distribuição.',
+                workload: '396 horas',
+                format: 'Presencial',
+                investment: 13860.00,
+                maxInstallments: 24,
+                career: 'Atue como Engenheiro de Sistemas de Potência, Especialista em Geração e Transmissão ou Gerente de Operações, garantindo a estabilidade e segurança da rede elétrica.',
+                skills: [ { name: 'Sistemas de Potência', level: 95 }, { name: 'Geração de Energia', level: 90 }, { name: 'Transmissão/Distribuição', level: 88 }, { name: 'Análise de Estabilidade', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'PÓS-GRADUAÇÃO LATO SENSU EM AGRICULTURA DE PRECISÃO',
+                description: 'Proporcionar uma formação especializada em automação agrícola, capacitando os profissionais para compreenderem e aplicarem as tecnologias mais recentes no contexto da agricultura de precisão. Desenvolver competências técnicas e práticas necessárias para a implementação e operação de sistemas automatizados e tecnologias de sensoriamento remoto em diferentes cenários agrícolas. Promover o domínio das técnicas de análise de dados agrícolas e sua interpretação para tomada de decisões estratégicas e operacionais no campo. Fomentar a capacidade de planejamento e gerenciamento de projetos de automação agrícola, considerando as particularidades e desafios do setor. Estimular a pesquisa e o desenvolvimento de soluções inovadoras em automação agrícola, visando a contínua melhoria dos processos e resultados no campo. Capacitar os profissionais para atuarem como líderes e agentes de mudança na adoção e implementação de práticas sustentáveis e tecnologicamente avançadas na agricultura.',
+                image: 'https://i.postimg.cc/XNT2pMzn/Agrotech-que-es-y-por-que-es-el-futuro-de-la-agricultura.jpg',
+                tags: ['Agricultura 4.0', 'Automação Agrícola', 'Drones', 'Análise de Dados'],
+                profile: 'Engenheiros agrônomos, produtores rurais e profissionais do agronegócio que buscam aplicar tecnologias de precisão para otimizar a produção e a sustentabilidade.',
+                workload: '432 horas',
+                format: 'Presencial',
+                investment: 15120.00,
+                maxInstallments: 24,
+                career: 'Atue como Especialista em Agricultura de Precisão, Gerente de Inovação no Agronegócio ou Consultor em Automação Agrícola, liderando a implementação de tecnologias para uma produção mais eficiente e sustentável.',
+                skills: [ { name: 'Automação Agrícola', level: 95 }, { name: 'Análise de Dados Geo', level: 90 }, { name: 'Sensoriamento Remoto', level: 88 }, { name: 'Gestão de Projetos Agro', level: 85 } ]
+            },
+            {
+                type: 'course',
+                title: 'MBA em Gestão da Logística',
+                description: 'Planeja, desenvolve, gerência e controla os processos logísticos internos e externos à organização, de forma integrada, a fim de otimizar os recursos e reduzir custos satisfazendo seus clientes.',
+                image: 'https://i.postimg.cc/FzQLXxTX/Sistemas-de-brazos-roboticos-inteligentes-para-tecnologia-digital-innovadora-de-almacenes.jpg',
+                tags: ['Logística', 'Supply Chain', 'Gestão de Operações', 'Otimização'],
+                profile: 'Profissionais e gestores de logística que buscam aprofundar seus conhecimentos em planejamento, controle e otimização da cadeia de suprimentos em um formato presencial.',
+                workload: '380 horas',
+                format: 'Presencial',
+                investment: 11930.00,
+                maxInstallments: 24,
+                career: 'Atue como Gerente de Logística, Coordenador de Supply Chain ou Especialista em Operações, liderando a otimização de processos logísticos para aumentar a eficiência e reduzir custos.',
+                skills: [ { name: 'Gestão Logística', level: 95 }, { name: 'Otimização de Rotas', level: 90 }, { name: 'Supply Chain', level: 88 }, { name: 'Controle de Custos', level: 85 } ]
+            }
+        ];
+
+        let currentPageIndex = 0;
+        let skillsChart = null;
+
+        const courseImageEl = document.getElementById('course-image');
+        const courseTitleEl = document.getElementById('course-title');
+        const courseDescriptionEl = document.getElementById('course-description');
+        const courseProfileEl = document.getElementById('course-profile');
+        const courseWorkloadEl = document.getElementById('course-workload');
+        const courseFormatEl = document.getElementById('course-format');
+        const courseInvestmentEl = document.getElementById('course-investment');
+        const courseCareerEl = document.getElementById('course-career');
+        const courseTagsEl = document.getElementById('course-tags');
+        const skillsChartCanvas = document.getElementById('skills-chart');
+        const pageCounter = document.getElementById('page-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageContent = document.getElementById('page-content');
+        const coverContent = document.getElementById('cover-content');
+        const courseContentWrapper = document.getElementById('course-content-wrapper');
+        const contentPanel = document.getElementById('content-panel');
+
+        function renderPage(index) {
+            const pageData = courses[index];
+            
+            pageContent.classList.add('loading');
+            
+            setTimeout(() => {
+                courseImageEl.src = pageData.image;
+
+                if(pageData.type === 'cover') {
+                    coverContent.classList.remove('hidden');
+                    coverContent.classList.add('flex');
+                    courseContentWrapper.classList.add('hidden');
+                    contentPanel.classList.remove('overflow-hidden');
+                } else {
+                    coverContent.classList.add('hidden');
+                    coverContent.classList.remove('flex');
+                    courseContentWrapper.classList.remove('hidden');
+                    contentPanel.classList.add('overflow-hidden');
+
+                    courseTitleEl.textContent = pageData.title;
+                    courseDescriptionEl.textContent = pageData.description;
+                    
+                    courseProfileEl.innerHTML = `
+                        <svg class="w-6 h-6 text-sky-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                        <div><h4 class="font-semibold text-gray-200 mb-1">Perfil do Aluno</h4><p class="text-gray-400">${pageData.profile}</p></div>`;
+
+                    courseWorkloadEl.innerHTML = `
+                        <svg class="w-6 h-6 text-sky-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div><h4 class="font-semibold text-gray-200 mb-1">Carga Horária</h4><p class="text-gray-400">${pageData.workload}</p></div>`;
+                    
+                    courseFormatEl.innerHTML = `
+                        <svg class="w-6 h-6 text-sky-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-.871a3 3 0 01-.879-2.122V17.25m6-10.5a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div><h4 class="font-semibold text-gray-200 mb-1">Formato</h4><p class="text-gray-400">${pageData.format}</p></div>`;
+                    
+                    const fullPrice = pageData.investment;
+                    const maxInstallments = pageData.maxInstallments;
+                    const formattedFullPrice = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(fullPrice);
+
+                    courseInvestmentEl.innerHTML = `
+                        <svg class="w-6 h-6 text-sky-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414-.336.75-.75.75h-.75m0-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        <div class="w-full">
+                            <h4 class="font-semibold text-gray-200 mb-1">Simule seu Investimento</h4>
+                            <p class="text-gray-400 text-xs mb-2">Valor base: ${formattedFullPrice}</p>
+                            <input type="range" id="investment-slider" min="1" max="${maxInstallments}" value="${maxInstallments}" class="w-full cursor-pointer">
+                            <div id="investment-details" class="text-gray-300 mt-2 text-center text-lg"></div>
+                            <div id="investment-savings" class="text-emerald-400 mt-1 text-center text-xs font-medium"></div>
+                        </div>`;
+
+                    courseCareerEl.innerHTML = `
+                        <svg class="w-8 h-8 text-sky-400 flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+                        <div><h4 class="font-semibold text-gray-200 mb-1">Insights de Carreira</h4><p class="text-gray-400 text-sm">${pageData.career}</p></div>`;
+                    
+                    courseTagsEl.innerHTML = pageData.tags.map(tag => `<span class="bg-gray-700 text-sky-300 text-xs font-medium px-3 py-1 rounded-full">${tag}</span>`).join('');
+                    
+                    const slider = document.getElementById('investment-slider');
+                    const details = document.getElementById('investment-details');
+                    const savings = document.getElementById('investment-savings');
+
+                    const updateInstallment = () => {
+                        const installments = parseInt(slider.value);
+                        
+                        const reductions = maxInstallments - installments;
+                        const discountPercentage = reductions * 1; // Adjusted from 5 to 1
+                        const discountAmount = fullPrice * (discountPercentage / 100);
+                        const discountedPrice = fullPrice - discountAmount;
+                        const installmentValue = discountedPrice / installments;
+
+                        const formattedInstallmentValue = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(installmentValue);
+                        const formattedDiscountAmount = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(discountAmount);
+                        
+                        details.innerHTML = `<span class="font-bold text-sky-400">${installments}x</span> de <span class="font-bold text-white">${formattedInstallmentValue}</span>`;
+
+                        if (discountPercentage > 0) {
+                            savings.innerHTML = `Desconto de ${discountPercentage}% OFF! Você economiza ${formattedDiscountAmount}.`;
+                            savings.classList.remove('hidden');
+                        } else {
+                            savings.innerHTML = '';
+                            savings.classList.add('hidden');
+                        }
+                    };
+                    
+                    slider.addEventListener('input', updateInstallment);
+                    updateInstallment(); // Initial call
+
+                    if (skillsChart) {
+                        skillsChart.destroy();
+                    }
+
+                    const chartData = {
+                        labels: pageData.skills.map(s => s.name),
+                        datasets: [{
+                            label: 'Nível de Habilidade',
+                            data: pageData.skills.map(s => s.level),
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            borderColor: 'rgba(56, 189, 248, 1)',
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: 'rgba(56, 189, 248, 1)',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(56, 189, 248, 1)',
+                            borderWidth: 2
+                        }]
+                    };
+
+                    const chartOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                                grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                                pointLabels: { color: '#e5e5e5', font: { size: 12 } },
+                                ticks: { color: '#e5e5e5', backdropColor: 'rgba(0, 0, 0, 0)', stepSize: 25 },
+                                min: 0,
+                                max: 100
+                            }
+                        }
+                    };
+
+                    skillsChart = new Chart(skillsChartCanvas, { type: 'radar', data: chartData, options: chartOptions });
+                }
+                
+                const pageNumber = index === 0 ? 'Capa' : `Curso ${index}`;
+                pageCounter.textContent = `${pageNumber} de ${courses.length - 1}`;
+                
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === courses.length - 1;
+                
+                pageContent.classList.remove('loading');
+
+            }, 200);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                renderPage(currentPageIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPageIndex < courses.length - 1) {
+                currentPageIndex++;
+                renderPage(currentPageIndex);
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            } else if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            }
+        });
+
+
+        // Initial render
+        renderPage(currentPageIndex);
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
